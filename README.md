@@ -20,18 +20,18 @@ var ObjectStorage = require('bluemix-object-storage').ObjectStorage;
 
 Use an `ObjectStorage` instance to connect to the IBM Object Storage service and manage containers.
 
-#### Connect to the IBM Object Storage service using an object containing projectId, userId, password, and region
+Pass in a credentials object containing projectId, userId, pasword, and region to the `ObjectStorage` constructor in order to establish a connection with the IBM Object Storage service on Bluemix
 
 ```javascript
 var credentials = {
     projectId: 'project-id',
     userId: 'user-id',
     password: 'password',
-    region: ObjectStorage.Region.Dallas
+    region: ObjectStorage.Region.DALLAS
 };
 var objStorage = new ObjectStorage(credentials);
 ```
-> Note: If a credentials object is not passed into the ObjectStorage constructor, then the constructor will attempt to read the appropriate values from VCAP_SERVICES. If no entry for Object Storage can be found in VCAP_SERVICES, then an error will be thrown
+> Note: If a credentials object is not passed into the `ObjectStorage` constructor, then the constructor will attempt to read the appropriate values from `VCAP_SERVICES`. If no entry for Object Storage can be found in `VCAP_SERVICES`, then an error will be thrown.
 
 
 #### Retrieve a list of existing containers
@@ -40,7 +40,7 @@ var objStorage = new ObjectStorage(credentials);
 objstorage.listContainers()
     .then(function(containerList) {
         // containerList - an array of ObjectStorageContainers
-        // may be empty
+        // containerList may be empty
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
@@ -92,7 +92,7 @@ objstorage.deleteContainer('container-name')
         // Server Error if any unexpected status codes were returned from the request
     });
 ```
-> Note: A container MUST be empty in order for it to be deleted
+> Note: A container **MUST** be empty in order for it to be deleted.
 
 
 #### Update/Create account metadata
@@ -184,7 +184,7 @@ container.getObject('object-name')
 container.listObjects()
     .then(function(objectList) {
         // objectList - the list of ObjectStorageObjects in this container
-        // may be empty
+        // objectList may be empty
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token

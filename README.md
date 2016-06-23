@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)
+
 # BluemixObjectStorage
 
 

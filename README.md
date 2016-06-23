@@ -44,7 +44,7 @@ objstorage.listContainers()
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -58,7 +58,7 @@ objstorage.createContainer('container-name')
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -73,7 +73,7 @@ objstorage.getContainer('container-name')
     .catch(function(err) {
         // ResourceNotFoundError if the specified container does not exist
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -89,7 +89,7 @@ objstorage.deleteContainer('container-name')
         // ResourceNotFoundError if the specified container does not exist
         // DeleteConflictError if the container is not empty before attempting to delete
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 > Note: A container **MUST** be empty in order for it to be deleted.
@@ -109,7 +109,7 @@ objstorage.updateMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -124,7 +124,7 @@ objstorage.metadata()
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -142,7 +142,7 @@ objstorage.deleteMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -160,7 +160,7 @@ container.createObject('object-name', data)
     .catch(function(err) {
         // TimeoutError if the request timed out
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -174,7 +174,7 @@ container.getObject('object-name')
     .catch(function(err) {
         // ResourceNotFoundError if the specified container does not exist
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -188,7 +188,7 @@ container.listObjects()
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -202,7 +202,7 @@ container.deleteObject('object-name')
     .catch(function(err) {
         // ResourceNotFoundError if the specified container does not exist
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -220,7 +220,7 @@ container.updateMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -235,7 +235,7 @@ container.metadata()
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -253,7 +253,7 @@ container.deleteMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -270,7 +270,7 @@ object.load(false)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -288,7 +288,7 @@ object.updateMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 }
 ```
@@ -303,7 +303,7 @@ object.metadata()
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 
@@ -321,7 +321,7 @@ object.deleteMetadata(metadata)
     })
     .catch(function(err) {
         // AuthTokenError if there was a problem refreshing authentication token
-        // Server Error if any unexpected status codes were returned from the request
+        // ServerError if any unexpected status codes were returned from the request
     });
 ```
 

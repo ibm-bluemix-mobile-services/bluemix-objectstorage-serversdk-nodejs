@@ -37,10 +37,10 @@ describe('ObjectStorageContainer', function() {
             var objectStorage = new ObjectStorage(credentials);
             var objectStorageContainer = new ObjectStorageContainer('test', objectStorage);
 
-            assert.strictEqual(objectStorageContainer.objectStorage, objectStorage, '');
-            assert.equal(objectStorageContainer.containerName(), 'test', '');
-            assert.equal(objectStorageContainer.baseResourceUrl, objectStorage.baseResourceUrl + '/' + 'test', '');
-            assert.equal(objectStorageContainer.client, objectStorage.client, '');
+            assert.strictEqual(objectStorageContainer.objectStorage, objectStorage);
+            assert.equal(objectStorageContainer.containerName(), 'test');
+            assert.equal(objectStorageContainer.baseResourceUrl, objectStorage.baseResourceUrl + '/' + 'test');
+            assert.equal(objectStorageContainer.client, objectStorage.client);
         });
     });
 
@@ -68,10 +68,10 @@ describe('ObjectStorageContainer', function() {
 
             objectStorageContainer.listObjects()
                 .then(function(actualList){
-                    assert.equal(actualList.length, expectedList.length, '');
+                    assert.equal(actualList.length, expectedList.length);
 
                     actualList.forEach(function(item, index) {
-                        assert.equal(item.objectName(), expectedList[index], '');
+                        assert.equal(item.objectName(), expectedList[index]);
                     });
                     HttpClient.prototype.send = send;
                     done();
@@ -107,8 +107,8 @@ describe('ObjectStorageContainer', function() {
 
             objectStorageContainer.listObjects()
                 .then(function(actualList){
-                    assert.equal(actualList.length, expectedList.length, '');
-                    assert.equal(actualList.length, 0, '');
+                    assert.equal(actualList.length, expectedList.length);
+                    assert.equal(actualList.length, 0);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -162,7 +162,7 @@ describe('ObjectStorageContainer', function() {
 
             objectStorageContainer.createObject('test')
                 .then(function(object) {
-                    assert.equal(object.objectName(), 'test', '');
+                    assert.equal(object.objectName(), 'test');
 
                     HttpClient.prototype.send = send;
                     done();
@@ -216,7 +216,7 @@ describe('ObjectStorageContainer', function() {
 
             objectStorageContainer.getObject('test')
                 .then(function(object) {
-                    assert.equal(object.objectName(), 'test', '');
+                    assert.equal(object.objectName(), 'test');
 
                     HttpClient.prototype.send = send;
                     done();
@@ -333,7 +333,7 @@ describe('ObjectStorageContainer', function() {
 
             objectStorageContainer.metadata()
                 .then(function(actualMetadata) {
-                    assert.deepEqual(actualMetadata, expectedMetadata, '');
+                    assert.deepEqual(actualMetadata, expectedMetadata);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -384,10 +384,10 @@ describe('ObjectStorageContainer', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Container-Meta-this'], '');
-                assert.isOk(headers['X-Container-Meta-that'], '');
-                assert.equal(headers['X-Container-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Container-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Container-Meta-this']);
+                assert.isOk(headers['X-Container-Meta-that']);
+                assert.equal(headers['X-Container-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Container-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;
@@ -449,10 +449,10 @@ describe('ObjectStorageContainer', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Remove-Container-Meta-this'], '');
-                assert.isOk(headers['X-Remove-Container-Meta-that'], '');
-                assert.equal(headers['X-Remove-Container-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Remove-Container-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Remove-Container-Meta-this']);
+                assert.isOk(headers['X-Remove-Container-Meta-that']);
+                assert.equal(headers['X-Remove-Container-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Remove-Container-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;

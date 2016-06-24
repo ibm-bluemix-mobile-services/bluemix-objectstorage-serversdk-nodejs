@@ -37,7 +37,7 @@ describe('ObjectStorage', function() {
                 var objectStorage = new ObjectStorage();
             }
             catch(err) {
-                assert.equal(err.name, 'ReferenceError', '');
+                assert.equal(err.name, 'ReferenceError');
             }
         });
     });
@@ -47,10 +47,10 @@ describe('ObjectStorage', function() {
             var objectStorage = new ObjectStorage(credentials);
             var authBody = objectStorage.client.getAuthBody();
 
-            assert.equal(objectStorage.baseResourceUrl, credentials.region + '/' + credentials.projectId, '');
-            assert.equal(authBody.auth.scope.project.id, credentials.projectId, '');
-            assert.equal(authBody.auth.identity.password.user.id, credentials.userId, '');
-            assert.equal(authBody.auth.identity.password.user.password, credentials.password, '');
+            assert.equal(objectStorage.baseResourceUrl, credentials.region + '/' + credentials.projectId);
+            assert.equal(authBody.auth.scope.project.id, credentials.projectId);
+            assert.equal(authBody.auth.identity.password.user.id, credentials.userId);
+            assert.equal(authBody.auth.identity.password.user.password, credentials.password);
         });
     });
 
@@ -61,7 +61,7 @@ describe('ObjectStorage', function() {
 
             var client = new HttpClient(credentials);
             objectStorage = new ObjectStorage(credentials, client);
-            assert.equal(objectStorage.client, client, '');
+            assert.equal(objectStorage.client, client);
         });
     });
 
@@ -82,9 +82,9 @@ describe('ObjectStorage', function() {
             var objectStorage = new ObjectStorage();
             var authBody = objectStorage.client.getAuthBody()
 
-            assert.equal(authBody.auth.scope.project.id, credentials.projectId, '');
-            assert.equal(authBody.auth.identity.password.user.id, credentials.userId, '');
-            assert.equal(authBody.auth.identity.password.user.password, credentials.password, '');
+            assert.equal(authBody.auth.scope.project.id, credentials.projectId);
+            assert.equal(authBody.auth.identity.password.user.id, credentials.userId);
+            assert.equal(authBody.auth.identity.password.user.password, credentials.password);
         });
     });
 
@@ -151,9 +151,9 @@ describe('ObjectStorage', function() {
 
             objectStorage.listContainers()
                 .then(function(actualList){
-                    assert.equal(actualList.length, expectedList.length, '');
+                    assert.equal(actualList.length, expectedList.length);
                     actualList.forEach(function(item, index) {
-                        assert.equal(item.containerName(), expectedList[index], '');
+                        assert.equal(item.containerName(), expectedList[index]);
                     });
                     HttpClient.prototype.send = send;
                     done();
@@ -188,8 +188,8 @@ describe('ObjectStorage', function() {
 
             objectStorage.listContainers()
                 .then(function(actualList){
-                    assert.equal(actualList.length, expectedList.length, '');
-                    assert.equal(actualList.length, 0, '');
+                    assert.equal(actualList.length, expectedList.length);
+                    assert.equal(actualList.length, 0);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -215,7 +215,7 @@ describe('ObjectStorage', function() {
 
             objectStorage.createContainer(expectedName)
                 .then(function(container) {
-                    assert.equal(container.containerName(), expectedName, '');
+                    assert.equal(container.containerName(), expectedName);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -244,13 +244,11 @@ describe('ObjectStorage', function() {
 
             objectStorage.createContainer()
                 .then(function(list) {
-
                     HttpClient.prototype.isExpired = isExpired;
                     done(new Error());
 
                 })
                 .catch(function(err) {
-
                     HttpClient.prototype.isExpired = isExpired;
                     done();
                 });
@@ -271,7 +269,7 @@ describe('ObjectStorage', function() {
 
             objectStorage.getContainer(expectedName)
                 .then(function(container) {
-                    assert.equal(container.containerName(), expectedName, '');
+                    assert.equal(container.containerName(), expectedName);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -382,7 +380,7 @@ describe('ObjectStorage', function() {
 
             objectStorage.metadata()
                 .then(function(actualMetadata) {
-                    assert.deepEqual(actualMetadata, expectedMetadata, '');
+                    assert.deepEqual(actualMetadata, expectedMetadata);
                     HttpClient.prototype.send = send;
                     done();
                 })
@@ -431,10 +429,10 @@ describe('ObjectStorage', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Account-Meta-this'], '');
-                assert.isOk(headers['X-Account-Meta-that'], '');
-                assert.equal(headers['X-Account-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Account-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Account-Meta-this']);
+                assert.isOk(headers['X-Account-Meta-that']);
+                assert.equal(headers['X-Account-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Account-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;
@@ -495,10 +493,10 @@ describe('ObjectStorage', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Remove-Account-Meta-this'], '');
-                assert.isOk(headers['X-Remove-Account-Meta-that'], '');
-                assert.equal(headers['X-Remove-Account-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Remove-Account-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Remove-Account-Meta-this']);
+                assert.isOk(headers['X-Remove-Account-Meta-that']);
+                assert.equal(headers['X-Remove-Account-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Remove-Account-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;

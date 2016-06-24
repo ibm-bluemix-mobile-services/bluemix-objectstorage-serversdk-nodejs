@@ -38,10 +38,10 @@ describe('ObjectStorageObject', function() {
             var objectStorageContainer = new ObjectStorageContainer('test', objectStorage);
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
-            assert.strictEqual(objectStorageObject.objectStorage, objectStorage, '');
-            assert.equal(objectStorageObject.objectName(), 'object', '');
-            assert.equal(objectStorageObject.baseResourceUrl, objectStorageContainer.baseResourceUrl + '/' + 'object', '');
-            assert.equal(objectStorageObject.client, objectStorage.client, '');
+            assert.strictEqual(objectStorageObject.objectStorage, objectStorage);
+            assert.equal(objectStorageObject.objectName(), 'object');
+            assert.equal(objectStorageObject.baseResourceUrl, objectStorageContainer.baseResourceUrl + '/' + 'object');
+            assert.equal(objectStorageObject.client, objectStorage.client);
         });
     });
 
@@ -63,8 +63,8 @@ describe('ObjectStorageObject', function() {
                 .then(function(actualData){
                     var cachedData = objectStorageObject.data;
 
-                    assert.equal(actualData, cachedData, '');
-                    assert.equal(actualData, response.body, '');
+                    assert.equal(actualData, cachedData);
+                    assert.equal(actualData, response.body);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -94,8 +94,8 @@ describe('ObjectStorageObject', function() {
                 .then(function(actualData){
                     var cachedData = objectStorageObject.data;
 
-                    assert.notOk(cachedData, '');
-                    assert.equal(actualData, response.body, '');
+                    assert.notOk(cachedData);
+                    assert.equal(actualData, response.body);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -162,7 +162,7 @@ describe('ObjectStorageObject', function() {
 
             objectStorageObject.metadata()
                 .then(function(actualMetadata) {
-                    assert.deepEqual(actualMetadata, expectedMetadata, '');
+                    assert.deepEqual(actualMetadata, expectedMetadata);
 
                     HttpClient.prototype.send = send;
                     done();
@@ -214,10 +214,10 @@ describe('ObjectStorageObject', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Object-Meta-this'], '');
-                assert.isOk(headers['X-Object-Meta-that'], '');
-                assert.equal(headers['X-Object-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Object-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Object-Meta-this']);
+                assert.isOk(headers['X-Object-Meta-that']);
+                assert.equal(headers['X-Object-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Object-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;
@@ -284,10 +284,10 @@ describe('ObjectStorageObject', function() {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
-                assert.isOk(headers['X-Remove-Object-Meta-this'], '');
-                assert.isOk(headers['X-Remove-Object-Meta-that'], '');
-                assert.equal(headers['X-Remove-Object-Meta-this'], metadata['this'], '');
-                assert.equal(headers['X-Remove-Object-Meta-that'], metadata['that'], '');
+                assert.isOk(headers['X-Remove-Object-Meta-this']);
+                assert.isOk(headers['X-Remove-Object-Meta-that']);
+                assert.equal(headers['X-Remove-Object-Meta-this'], metadata['this']);
+                assert.equal(headers['X-Remove-Object-Meta-that'], metadata['that']);
                 deferred.resolve(response);
 
                 return deferred.promise;

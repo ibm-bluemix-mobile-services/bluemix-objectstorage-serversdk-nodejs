@@ -51,7 +51,7 @@ describe('HttpClient', function() {
             var client = new HttpClient(credentials);
             var actualAuthBody = client.getAuthBody();
 
-            assert.deepEqual(expectedAuthBody, actualAuthBody, 'message');
+            assert.deepEqual(expectedAuthBody, actualAuthBody);
         });
     });
 
@@ -60,8 +60,8 @@ describe('HttpClient', function() {
             var client = new HttpClient(credentials);
             var token = client.getToken();
 
-            assert(token.expiration, 'message');
-            assert(token.token.length === 0, 'message');
+            assert(token.expiration);
+            assert(token.token.length === 0);
         });
     });
 
@@ -86,7 +86,7 @@ describe('HttpClient', function() {
             client.setToken(response);
             var token = client.getToken();
 
-            assert.deepEqual(expected, token, 'message');
+            assert.deepEqual(expected, token);
         });
     });
 
@@ -107,7 +107,7 @@ describe('HttpClient', function() {
             client.setToken(response);
             var token = client.getToken();
 
-            assert(client.isExpired(token), 'message');
+            assert(client.isExpired(token));
         });
     });
 
@@ -129,7 +129,7 @@ describe('HttpClient', function() {
             client.setToken(response);
             var token = client.getToken();
 
-            assert(client.isExpired(token), 'message');
+            assert(client.isExpired(token));
         });
     });
 
@@ -152,7 +152,7 @@ describe('HttpClient', function() {
             client.setToken(response);
             var token = client.getToken();
 
-            assert(!client.isExpired(token), 'message');
+            assert(!client.isExpired(token));
         });
     });
 
@@ -180,7 +180,7 @@ describe('HttpClient', function() {
                 .then(function() {
                     var tokenAfterRefresh = client.getToken();
 
-                    assert.deepEqual(tokenBeforeRefresh, tokenAfterRefresh, '');
+                    assert.deepEqual(tokenBeforeRefresh, tokenAfterRefresh);
                     done();
                 })
                 .catch(function(err) {
@@ -219,7 +219,7 @@ describe('HttpClient', function() {
                 .then(function() {
                     var actualToken = client.getToken();
 
-                    assert.deepEqual(expectedToken, actualToken, '');
+                    assert.deepEqual(expectedToken, actualToken);
                     done();
                 })
                 .catch(function(err) {
@@ -266,7 +266,7 @@ describe('HttpClient', function() {
             };
             client.send(options)
                 .then(function(response) {
-                    assert.strictEqual(200, response.statusCode, '');
+                    assert.strictEqual(200, response.statusCode);
                     done();
                 })
                 .catch(function(err) {
@@ -292,7 +292,7 @@ describe('HttpClient', function() {
             };
             client.send(options)
                 .then(function(response) {
-                    assert.strictEqual(201, response.statusCode, '');
+                    assert.strictEqual(201, response.statusCode);
                     done();
                 })
                 .catch(function(err) {
@@ -319,7 +319,7 @@ describe('HttpClient', function() {
             };
             client.send(options)
                 .then(function(response) {
-                    assert.strictEqual(204, response.statusCode, '');
+                    assert.strictEqual(204, response.statusCode);
                     done();
                 })
                 .catch(function(err) {

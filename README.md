@@ -13,7 +13,7 @@ npm install --save bluemix-object-storage
 ## Usage
 
 ```javascript
-var ObjectStorage = require('bluemix-object-storage').ObjectStorage;
+var ObjectStorage = require('bluemix-objectstorage').ObjectStorage;
 ```
 
 ### ObjectStorage

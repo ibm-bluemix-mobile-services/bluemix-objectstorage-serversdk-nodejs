@@ -7,7 +7,7 @@
 
 ## Installation
 ```sh
-npm install --save bluemix-object-storage
+npm install --save bluemix-objectstorage
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ var ObjectStorage = require('bluemix-objectstorage').ObjectStorage;
 
 Use an `ObjectStorage` instance to connect to the IBM Object Storage service and manage containers.
 
-Pass in a credentials object containing projectId, userId, pasword, and region to the `ObjectStorage` constructor in order to establish a connection with the IBM Object Storage service on Bluemix
+Pass in a credentials object containing projectId, userId, password, and region to the `ObjectStorage` constructor in order to establish a connection with the IBM Object Storage service on Bluemix
 
 ```javascript
 var credentials = {

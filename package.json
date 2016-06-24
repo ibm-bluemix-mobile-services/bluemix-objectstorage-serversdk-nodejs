@@ -1,7 +1,7 @@
 {
-  "name": "bluemix-object-storage",
+  "name": "bluemix-objectstorage",
   "version": "0.1.0",
-  "description": "Library for interacting with the Bluemix Object Storage service",
+  "description": "Library for interacting with the IBM Object Storage service on Bluemix",
   "main": "./lib/ObjectStorage.js",
   "directories": {
     "test": "test"

@@ -47,7 +47,7 @@ describe('ObjectStorage', function() {
             var objectStorage = new ObjectStorage(credentials);
             var authBody = objectStorage.client.getAuthBody();
 
-            assert.equal(objectStorage.baseResourceUrl, credentials.region + '/' + credentials.projectId);
+            assert.equal(objectStorage.baseResourceUrl, credentials.region + credentials.projectId);
             assert.equal(authBody.auth.scope.project.id, credentials.projectId);
             assert.equal(authBody.auth.identity.password.user.id, credentials.userId);
             assert.equal(authBody.auth.identity.password.user.password, credentials.password);

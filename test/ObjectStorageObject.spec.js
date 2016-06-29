@@ -48,6 +48,7 @@ describe('ObjectStorageObject', function() {
     describe('load', function() {
         it('should cache data when function parameter is true', function(done) {
             response.body = 'gobbledygook';
+            response.headers = { 'content-type': 'something' };
             var send = HttpClient.prototype.send;
             HttpClient.prototype.send = function(options) {
                 var deferred = Q.defer();
@@ -79,6 +80,7 @@ describe('ObjectStorageObject', function() {
     describe('load', function() {
         it('should not cache data when function parameter is false', function(done) {
             response.body = 'gobbledygook';
+            response.headers = { 'content-type': 'something' };
             var send = HttpClient.prototype.send;
             HttpClient.prototype.send = function(options) {
                 var deferred = Q.defer();
@@ -339,6 +341,38 @@ describe('ObjectStorageObject', function() {
                 .catch(function(err) {
                     HttpClient.prototype.isExpired = isExp;
                     done();
+                });
+        });
+    });
+
+    describe('getContentType', function() {
+        it('should correctly set the content type from the response header', function(done) {
+            response.body = 'test body';
+            response.statusCode = 200;
+            response.headers = { 'content-type': 'image/jpeg' };
+
+            var request = function(option, callback) {
+                callback(null, response, response.body);
+            };
+            var isExp = HttpClient.prototype.isExpired;
+            HttpClient.prototype.isExpired = function(token) {
+                return false;
+            };
+            var client = new HttpClient(credentials, request);
+            var objectStorage = new ObjectStorage(credentials, client);
+            var objectStorageContainer = new ObjectStorageContainer('test', objectStorage);
+            var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
+
+            objectStorageObject.load()
+                .then(function(data) {
+                    HttpClient.prototype.isExpired = isExp;
+                    var contentType = objectStorageObject.getContentType();
+                    assert.equal(contentType, response.headers['content-type']);
+                    done();
+                })
+                .catch(function(err) {
+                    HttpClient.prototype.isExpired = isExp;
+                    done(err);
                 });
         });
     });

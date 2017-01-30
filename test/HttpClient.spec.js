@@ -32,14 +32,14 @@ describe('HttpClient', function() {
                         ],
                         password: {
                             user: {
-                                id: 'userId',
-                                password: 'password'
+                                id: credentials.userId,
+                                password: credentials.password
                             }
                         }
                     },
                     scope: {
                         project: {
-                            id: 'projectId'
+                            id: credentials.projectId
                         }
                     }
                 }

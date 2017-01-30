@@ -11,6 +11,7 @@
  *     limitations under the License.
  */
 var assert = require('chai').assert;
+
 var Q = require('q');
 var _ = require('lodash');
 var ObjectStorage = require('../lib/ObjectStorage').ObjectStorage;
@@ -66,10 +67,10 @@ describe('ObjectStorage', function() {
                 'Object-Storage': [
                     {
                         credentials: {
-                            projectId: 'projectId',
-                            userId: 'userId',
-                            password: 'password',
-                            region: 'london'
+                            projectId: credentials.projectId,
+                            userId: credentials.userId,
+                            password: credentials.password,
+                            region: credentials.region
                         }
                     }
                 ]
@@ -115,12 +116,7 @@ describe('ObjectStorage', function() {
             process.env.VCAP_SERVICES = JSON.stringify({
                 'Object-Storage': [
                     {
-                        credentials: {
-                            projectId: 'projectId',
-                            userId: 'userId',
-                            password: 'password',
-                            region: 'dallas'
-                        }
+                        credentials: credentials
                     }
                 ]
             });

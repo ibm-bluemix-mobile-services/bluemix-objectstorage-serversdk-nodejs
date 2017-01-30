@@ -13,11 +13,7 @@
 var assert = require('chai').assert;
 var HttpClient = require('../lib/HttpClient').HttpClient;
 
-var credentials = {
-    projectId: 'projectId',
-    userId: 'userId',
-    password: 'password'
-};
+var credentials = require('./credentials.json');
 var response = {};
 
 describe('HttpClient', function() {

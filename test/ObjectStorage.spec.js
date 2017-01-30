@@ -16,12 +16,7 @@ var _ = require('lodash');
 var ObjectStorage = require('../lib/ObjectStorage').ObjectStorage;
 var HttpClient = require('../lib/HttpClient').HttpClient
 
-var credentials = {
-    projectId: 'projectId',
-    userId: 'userId',
-    password: 'password',
-    region: ObjectStorage.Region.DALLAS
-};
+var credentials = require('./credentials.json');
 
 var response = {};
 

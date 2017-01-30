@@ -247,7 +247,7 @@ describe('ObjectStorage', function() {
     });
 
     describe('getContainer', function() {
-        it('should create a container object with the specified name', function(done) {
+        it('should get a container object with the specified name', function(done) {
             var expectedName = 'test';
             var send = HttpClient.prototype.send;
             HttpClient.prototype.send = function(options) {

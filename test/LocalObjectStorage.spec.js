@@ -7,7 +7,11 @@ var path = require('path');
 
 describe('LocalObjectStorage', function() {
     before(function() {
-        new ObjectStorage(credentials.baseDir).initAndEmpty();  //to empty the target fs
+        new ObjectStorage(credentials.baseDir).initAndEmpty().then(()=>{
+          done();
+        }).catch((err)=>{
+          done(err);
+        });  //to empty the target fs
     });
 
     describe('constructor', function() {
@@ -27,22 +31,25 @@ describe('LocalObjectStorage', function() {
     });
 
     describe('Use Containers', function() {
-        it('should correctly parse body and produce an array of containers', function(done) {
-            var expectedList = [];
-            var objectStorage = new ObjectStorage(credentials.baseDir);
+      it('should correctly parse body and produce an array of containers', function (done) {
+        var expectedList = [];
+        var objectStorage = new ObjectStorage(credentials.baseDir);
 
-            objectStorage.listContainers()
-                .then(function(actualList){
-                    assert.equal(actualList.length, expectedList.length);
-                    actualList.forEach(function(item, index) {
-                        assert.equal(item.containerName(), expectedList[index]);
-                    });
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
-        });
+        objectStorage.listContainers()
+          .then(function (actualList) {
+            assert.equal(actualList.length, expectedList.length);
+            actualList.forEach(function (item, index) {
+              assert.equal(item.containerName(), expectedList[index]);
+            });
+            done();
+          })
+          .catch(function (err) {
+            done(err);
+          });
+      });
+    });
+
+    describe('Use Containers', function() {
         it('should create a container object with the specified name', function(done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             var expectedName = 'test';
@@ -55,6 +62,9 @@ describe('LocalObjectStorage', function() {
                   done(err);
               });
         });
+    });
+
+    describe('Use Containers', function() {
         it('should get a container object with the specified name', function(done) {
             var expectedName = 'test';
             var objectStorage = new ObjectStorage(credentials.baseDir);
@@ -68,6 +78,9 @@ describe('LocalObjectStorage', function() {
                   done(err);
               });
         });
+    });
+
+    describe('Use Containers', function() {
         it('should not produce an error', function(done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
 

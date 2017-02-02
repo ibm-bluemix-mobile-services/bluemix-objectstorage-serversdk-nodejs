@@ -24,7 +24,7 @@ function ObjectStorageFactory(options) {
   if (!isLocal) {
     var serviceCredentials = options.credentials
     // Bluemix environnement
-    var ObjectStorage = require('./ObjectStorage').ObjectStorage;
+    var ObjectStorage = require('./lib/ObjectStorage').ObjectStorage;
     if (serviceCredentials.region.toUpperCase() === 'LONDON') {
       serviceCredentials.region = ObjectStorage.Region.LONDON;
     } else {
@@ -38,7 +38,7 @@ function ObjectStorageFactory(options) {
     console.log('/!\\ /!\\ /!\\   LOCAL ENVIRONMENT HAS ENABLED - NOT FOR PRODUCTION!!!!   /!\\ /!\\ /!\\')
     var baseDir = options.baseDir ? options.baseDir : '/tmp/localObjectStorage';
 
-    var ObjectStorage = require('./LocalObjectStorage').ObjectStorage;
+    var ObjectStorage = require('./lib/LocalObjectStorage').ObjectStorage;
     this.objStorage = new ObjectStorage(baseDir);
     this.objStorage.listContainers()
       .then(function (containersList) {

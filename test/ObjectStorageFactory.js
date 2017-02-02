@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 
-var ObjectStorageFactory = require('../index');
+var ObjectStorageFactory = require('../lib/ObjectStorageFactory').ObjectStorageFactory;
 
 var credentials = require('./credentials.json');
 

@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs#readme",
   "devDependencies": {
+    "async": "^2.1.4",
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
     "mocha": "^2.5.3"

@@ -16,14 +16,14 @@ var HttpClient = require('../lib/HttpClient').HttpClient;
 var credentials = require('./credentials.json');
 var response = {};
 
-describe('HttpClient', function() {
+describe('HttpClient', function () {
 
-    beforeEach(function() {
+    beforeEach(function () {
         response = {};
 
     });
-    describe('constructor', function() {
-        it('should correctly set authBody properties', function() {
+    describe('constructor', function () {
+        it('should correctly set authBody properties', function () {
             var expectedAuthBody = {
                 auth: {
                     identity: {
@@ -51,8 +51,8 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('constructor', function() {
-        it('should set token with empty token body and nonempty expiration', function() {
+    describe('constructor', function () {
+        it('should set token with empty token body and nonempty expiration', function () {
             var client = new HttpClient(credentials);
             var token = client.getToken();
 
@@ -61,8 +61,8 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('setToken', function() {
-        it('should correctly set token body and expiration', function() {
+    describe('setToken', function () {
+        it('should correctly set token body and expiration', function () {
             var expectedExpiration = new Date().toString();
             var expectedToken = 'abcdef';
             var expectedBody = JSON.stringify({
@@ -86,8 +86,8 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('isExpired', function() {
-        it('should return true when current time is greater than token expiration', function() {
+    describe('isExpired', function () {
+        it('should return true when current time is greater than token expiration', function () {
             var expiration = new Date().toString();
             var expectedToken = 'abcdef';
             var expectedBody = JSON.stringify({
@@ -107,8 +107,8 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('isExpired', function() {
-        it('should return true when current time is within 10 minutes of token expiration', function() {
+    describe('isExpired', function () {
+        it('should return true when current time is within 10 minutes of token expiration', function () {
             var date = new Date();
             var expiration = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() + 5)).toString();
             var expectedToken = 'abcdef';
@@ -129,8 +129,8 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('isExpired', function() {
-        it('should return false when current time is not within 10 minutes of token expiration', function() {
+    describe('isExpired', function () {
+        it('should return false when current time is not within 10 minutes of token expiration', function () {
             var date = new Date();
             var expiration = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() + 30)).toString();
             var expectedToken = 'abcdef';
@@ -152,9 +152,9 @@ describe('HttpClient', function() {
         });
     });
 
-    describe('refreshToken', function() {
-        it('should do nothing if token has not expired', function(done) {
-            HttpClient.prototype.isExpired = function(token) {
+    describe('refreshToken', function () {
+        it('should do nothing if token has not expired', function (done) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var expiration = new Date().toString();
@@ -173,21 +173,21 @@ describe('HttpClient', function() {
             var tokenBeforeRefresh = client.getToken();
 
             client.refreshToken()
-                .then(function() {
-                    var tokenAfterRefresh = client.getToken();
+              .then(function () {
+                  var tokenAfterRefresh = client.getToken();
 
-                    assert.deepEqual(tokenBeforeRefresh, tokenAfterRefresh);
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+                  assert.deepEqual(tokenBeforeRefresh, tokenAfterRefresh);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('refreshToken', function() {
-        it('should correctly update token when token has expired', function(done) {
-            HttpClient.prototype.isExpired = function(token) {
+    describe('refreshToken', function () {
+        it('should correctly update token when token has expired', function (done) {
+            HttpClient.prototype.isExpired = function (token) {
                 return true;
             };
             var date = new Date();
@@ -207,51 +207,51 @@ describe('HttpClient', function() {
                 expiration: expiration
             }
 
-            var request = function(options, callback) {
+            var request = function (options, callback) {
                 callback(null, response, response.body);
             };
             var client = new HttpClient(credentials, request);
             client.refreshToken()
-                .then(function() {
-                    var actualToken = client.getToken();
+              .then(function () {
+                  var actualToken = client.getToken();
 
-                    assert.deepEqual(expectedToken, actualToken);
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+                  assert.deepEqual(expectedToken, actualToken);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('refreshToken', function() {
-        it('should reject on error', function(done) {
-            HttpClient.prototype.isExpired = function(token) {
+    describe('refreshToken', function () {
+        it('should reject on error', function (done) {
+            HttpClient.prototype.isExpired = function (token) {
                 return true;
             };
 
-            var request = function(options, callback) {
+            var request = function (options, callback) {
                 callback('Test Error', {}, {});
             };
             var client = new HttpClient(credentials, request);
             client.refreshToken()
-                .then(function() {
-                    done('Expected an error, but did not receive one');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function () {
+                  done('Expected an error, but did not receive one');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should resolve promise on status 200', function(done) {
+    describe('send', function () {
+        it('should resolve promise on status 200', function (done) {
             response.statusCode = 200
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -261,23 +261,23 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    assert.strictEqual(200, response.statusCode);
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+              .then(function (response) {
+                  assert.strictEqual(200, response.statusCode);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('send', function() {
-        it('should resolve promise on status 201', function(done) {
+    describe('send', function () {
+        it('should resolve promise on status 201', function (done) {
             response.statusCode = 201;
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -287,24 +287,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    assert.strictEqual(201, response.statusCode);
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+              .then(function (response) {
+                  assert.strictEqual(201, response.statusCode);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('send', function() {
-        it('should resolve promise on status 204', function(done) {
+    describe('send', function () {
+        it('should resolve promise on status 204', function (done) {
             response.statusCode = 204;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -314,25 +314,25 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    assert.strictEqual(204, response.statusCode);
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+              .then(function (response) {
+                  assert.strictEqual(204, response.statusCode);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject promise on status 404', function(done) {
+    describe('send', function () {
+        it('should reject promise on status 404', function (done) {
             response.body = 'Test Body';
             response.statusCode = 404;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
 
                 return false;
             };
@@ -343,24 +343,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done('failed to reject upon status 404');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done('failed to reject upon status 404');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject promise on status 408', function(done) {
+    describe('send', function () {
+        it('should reject promise on status 408', function (done) {
             response.body = 'Test Body';
             response.statusCode = 408;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -370,24 +370,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done('failed to reject upon status 408');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done('failed to reject upon status 408');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject promise on status 409', function(done) {
+    describe('send', function () {
+        it('should reject promise on status 409', function (done) {
             response.body = 'Test Body';
             response.statusCode = 409;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -397,24 +397,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done('failed to reject upon status 408');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done('failed to reject upon status 408');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject promise on status 411', function(done) {
+    describe('send', function () {
+        it('should reject promise on status 411', function (done) {
             response.body = 'Test Body';
             response.statusCode = 411;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -424,24 +424,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done('failed to reject upon status 411');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done('failed to reject upon status 411');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject promise on status 422', function(done) {
+    describe('send', function () {
+        it('should reject promise on status 422', function (done) {
             response.body = 'Test Body';
             response.statusCode = 422;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -451,22 +451,22 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done('failed to reject upon status 422');
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done('failed to reject upon status 422');
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject upon error from request', function(done) {
+    describe('send', function () {
+        it('should reject upon error from request', function (done) {
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(new Error(), response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -476,24 +476,24 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 
-    describe('send', function() {
-        it('should reject upon unacceptable status code', function(done) {
+    describe('send', function () {
+        it('should reject upon unacceptable status code', function (done) {
             response.body = 'Test Body';
             response.statusCode = 500;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -503,12 +503,12 @@ describe('HttpClient', function() {
                 headers: {}
             };
             client.send(options)
-                .then(function(response) {
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function (response) {
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 });

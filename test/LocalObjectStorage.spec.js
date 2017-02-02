@@ -5,96 +5,96 @@ var ObjectStorage = require('../lib/LocalObjectStorage').ObjectStorage;
 var credentials = require('./credentials.json');
 var path = require('path');
 
-describe('LocalObjectStorage', function() {
-    before(function() {
-        new ObjectStorage(credentials.baseDir).initAndEmpty().then(function(){
-          done();
-        }).catch(function(err){
-          done(err);
+describe('LocalObjectStorage', function () {
+    before(function () {
+        new ObjectStorage(credentials.baseDir).initAndEmpty().then(function () {
+            done();
+        }).catch(function (err) {
+            done(err);
         });  //to empty the target fs
     });
 
-    describe('constructor', function() {
-        it('should initialize credentials and resource url correctly', function() {
+    describe('constructor', function () {
+        it('should initialize credentials and resource url correctly', function () {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             assert.equal(objectStorage.baseResourceUrl, credentials.baseDir + path.sep);
         });
 
-        it('should return an error', function() {
+        it('should return an error', function () {
             try {
                 var objectStorage = new ObjectStorage();
             }
-            catch(err) {
+            catch (err) {
                 assert.equal(err.name, 'ReferenceError');
             }
         });
     });
 
-    describe('Use Containers', function() {
-      it('should correctly parse body and produce an array of containers', function (done) {
-        var expectedList = [];
-        var objectStorage = new ObjectStorage(credentials.baseDir);
-
-        objectStorage.listContainers()
-          .then(function (actualList) {
-            assert.equal(actualList.length, expectedList.length);
-            actualList.forEach(function (item, index) {
-              assert.equal(item.containerName(), expectedList[index]);
-            });
-            done();
-          })
-          .catch(function (err) {
-            done(err);
-          });
-      });
-    });
-
-    describe('Use Containers', function() {
-        it('should create a container object with the specified name', function(done) {
+    describe('Use Containers', function () {
+        it('should correctly parse body and produce an array of containers', function (done) {
+            var expectedList = [];
             var objectStorage = new ObjectStorage(credentials.baseDir);
-            var expectedName = 'test';
-            objectStorage.createContainer(expectedName)
-              .then(function(container) {
-                  assert.equal(container.containerName(), expectedName);
+
+            objectStorage.listContainers()
+              .then(function (actualList) {
+                  assert.equal(actualList.length, expectedList.length);
+                  actualList.forEach(function (item, index) {
+                      assert.equal(item.containerName(), expectedList[index]);
+                  });
                   done();
               })
-              .catch(function(err) {
+              .catch(function (err) {
                   done(err);
               });
         });
     });
 
-    describe('Use Containers', function() {
-        it('should get a container object with the specified name', function(done) {
+    describe('Use Containers', function () {
+        it('should create a container object with the specified name', function (done) {
+            var objectStorage = new ObjectStorage(credentials.baseDir);
+            var expectedName = 'test';
+            objectStorage.createContainer(expectedName)
+              .then(function (container) {
+                  assert.equal(container.containerName(), expectedName);
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
+        });
+    });
+
+    describe('Use Containers', function () {
+        it('should get a container object with the specified name', function (done) {
             var expectedName = 'test';
             var objectStorage = new ObjectStorage(credentials.baseDir);
 
             objectStorage.getContainer(expectedName)
-              .then(function(container) {
+              .then(function (container) {
                   assert.equal(container.containerName(), expectedName);
                   done();
               })
-              .catch(function(err) {
+              .catch(function (err) {
                   done(err);
               });
         });
     });
 
-    describe('Use Containers', function() {
-        it('should not produce an error', function(done) {
+    describe('Use Containers', function () {
+        it('should not produce an error', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
 
             objectStorage.deleteContainer('test')
-                .then(function() {
-                    done();
-                })
-                .catch(function(err) {
-                    done(err);
-                });
+              .then(function () {
+                  done();
+              })
+              .catch(function (err) {
+                  done(err);
+              });
         });
     });
 
-    describe('Use metadata', function() {
+    describe('Use metadata', function () {
         it('should return empty array if non already initialized', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             var expectedMetadata = {};
@@ -110,8 +110,8 @@ describe('LocalObjectStorage', function() {
         });
     });
 
-    describe('Use metadata', function() {
-        it('should append appropriate header key to each metadata key passed in', function(done) {
+    describe('Use metadata', function () {
+        it('should append appropriate header key to each metadata key passed in', function (done) {
             var metadata = {
                 'this': 'this',
                 'that': 'that'
@@ -119,17 +119,17 @@ describe('LocalObjectStorage', function() {
             var objectStorage = new ObjectStorage(credentials.baseDir);
 
             objectStorage.updateMetadata(metadata)
-              .then(function() {
+              .then(function () {
                   done();
               })
-              .catch(function(err) {
+              .catch(function (err) {
                   done(err);
               });
         });
     });
 
-    describe('Use metadata', function() {
-        it('should append appropriate header key to each metadata key passed in', function(done) {
+    describe('Use metadata', function () {
+        it('should append appropriate header key to each metadata key passed in', function (done) {
             var metadata = {
                 'this': 'this',
                 'that': 'that'
@@ -137,12 +137,12 @@ describe('LocalObjectStorage', function() {
             var objectStorage = new ObjectStorage(credentials.baseDir);
 
             objectStorage.deleteMetadata(metadata)
-                .then(function() {
-                    done();
-                })
-                .catch(function(err) {
-                    done();
-                });
+              .then(function () {
+                  done();
+              })
+              .catch(function (err) {
+                  done();
+              });
         });
     });
 });

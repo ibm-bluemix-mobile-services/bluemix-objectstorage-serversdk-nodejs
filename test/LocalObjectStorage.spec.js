@@ -7,9 +7,9 @@ var path = require('path');
 
 describe('LocalObjectStorage', function() {
     before(function() {
-        new ObjectStorage(credentials.baseDir).initAndEmpty().then(()=>{
+        new ObjectStorage(credentials.baseDir).initAndEmpty().then(function(){
           done();
-        }).catch((err)=>{
+        }).catch(function(err){
           done(err);
         });  //to empty the target fs
     });

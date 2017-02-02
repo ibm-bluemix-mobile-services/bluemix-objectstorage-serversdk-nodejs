@@ -2,10 +2,17 @@ var assert = require('chai').assert,
   path = require('path'),
   _ = require('lodash'),
   async = require('async'),
+  fs=require('fs'),
   ObjectStorage = require('../lib/LocalObjectStorage').ObjectStorage,
   ObjectStorageContainer = require('../lib/LocalObjectStorageContainer').ObjectStorageContainer;
 
 var credentials = require('./credentials.json');
+
+var binary;
+fs.readFile(path.resolve("./test/pb-apache.png"), function (err, data) {
+    if (err) throw new Error(err);
+    binary = data.toString('base64');
+});
 
 describe('LocalObjectStorageContainer', function () {
 
@@ -101,6 +108,20 @@ describe('LocalObjectStorageContainer', function () {
     });
 
     describe('getObject', function () {
+        it('should launch an error if object does not exists', function (done) {
+            var objectStorage = new ObjectStorage(credentials.baseDir);
+            objectStorage.createContainer('container3').then(function (container) {
+                container.getObject('test0', null, binary)
+                  .then(function (object) {
+                      done('Error has not been launched');
+                  }).catch(function(err){
+                    done();
+                });
+            }).catch(done);
+        });
+    });
+
+    describe('getObject', function () {
         it('should create a ObjectStorageObject object with the specified name', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container3').then(function (container) {
@@ -108,8 +129,7 @@ describe('LocalObjectStorageContainer', function () {
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test0');
                       done();
-                  })
-                ;
+                  });
             }).catch(done);
         });
     });

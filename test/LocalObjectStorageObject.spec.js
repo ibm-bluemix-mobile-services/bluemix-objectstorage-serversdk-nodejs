@@ -71,7 +71,7 @@ describe('LocalObjectStorageObject', function () {
                 container.createObject('test0', null, binary)
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test0');
-                      object.load(true, true).then(function (data) {
+                      object.load(true, false).then(function (data) {
                           assert.equal(data, binary);
                           assert.equal(object.data, binary);
                           done();

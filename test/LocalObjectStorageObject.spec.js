@@ -52,18 +52,15 @@ describe('LocalObjectStorageObject', function () {
     describe('load', function () {
         it('should launch an error if object does not exists', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
-            objectStorage.createContainer('container0').then(function (container) {
-                container.createObject('test0', 'stttuuuuuuuffffffffiiiiinngggggggg')
-                  .then(function (object) {
-                      assert.equal(object.objectName(), 'test0');
-                      object.load().then(function(data) {
-                          done('Error has not been launched');
-                      }).catch(function(err) {
-                          done();
-                      });
-                      done();
-                  });
-            }).catch(done);
+            var objectStorageContainer = new ObjectStorageContainer('container0', objectStorage);
+            var objectStorageObject = new ObjectStorageObject('fake', objectStorageContainer);
+
+            assert.equal(objectStorageObject.objectName(), 'fake');
+            objectStorageObject.load().then(function (data) {
+                done(new Error('Error has not been launched'));
+            }).catch(function (err) {
+                done();
+            });
         });
     });
 

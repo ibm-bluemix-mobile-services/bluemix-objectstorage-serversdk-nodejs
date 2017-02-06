@@ -20,10 +20,15 @@ var assert = require('chai').assert,
 
 var credentials = require('./credentials.json');
 
-var binary;
+var binary1;
 fs.readFile(path.resolve("./test/pb-apache.png"), function (err, data) {
     if (err) throw new Error(err);
-    binary = data.toString('base64');
+    binary1 = data.toString('base64');
+});
+var binary2;
+fs.readFile(path.resolve("./test/las-vegas-parano-gif-542ad8bb84cab.gif"), function (err, data) {
+    if (err) throw new Error(err);
+    binary2 = data.toString('base64');
 });
 
 describe('LocalObjectStorageObject', function () {
@@ -65,15 +70,15 @@ describe('LocalObjectStorageObject', function () {
     });
 
     describe('load', function () {
-        it('should cache data when function parameter is true', function (done) {
+        it('should cache data when function parameter is true (binary1)', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container0').then(function (container) {
-                container.createObject('test0', null, binary)
+                container.createObject('test0', null, binary1)
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test0');
-                      object.load(true, false).then(function (data) {
-                          assert.equal(data, binary);
-                          assert.equal(object.data, binary);
+                      object.load(true, true).then(function (data) {
+                          assert.equal(data, binary1);
+                          assert.equal(object.data, binary1);
                           done();
                       }).catch(done);
                   }).catch(done);
@@ -82,14 +87,48 @@ describe('LocalObjectStorageObject', function () {
     });
 
     describe('load', function () {
-        it('should not cache data when function parameter is false', function (done) {
+        it('should cache data when function parameter is true (binary2)', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container0').then(function (container) {
-                container.createObject('test1', null, binary)
+                container.createObject('test1', null, binary2)
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test1');
+                      object.load(true, true).then(function (data) {
+                          assert.equal(data, binary2);
+                          assert.equal(object.data, binary2);
+                          done();
+                      }).catch(done);
+                  }).catch(done);
+            }).catch(done);
+        });
+    });
+
+    describe('load', function () {
+        it('should not cache data when function parameter is false (binary1)', function (done) {
+            var objectStorage = new ObjectStorage(credentials.baseDir);
+            objectStorage.createContainer('container0').then(function (container) {
+                container.createObject('test2', null, binary1)
+                  .then(function (object) {
+                      assert.equal(object.objectName(), 'test2');
                       object.load(false, true).then(function (data) {
-                          assert.equal(data, binary);
+                          assert.equal(data, binary1);
+                          assert.notOk(object.data);
+                          done();
+                      }).catch(done);
+                  }).catch(done);
+            }).catch(done);
+        });
+    });
+
+    describe('load', function () {
+        it('should not cache data when function parameter is false (binary2)', function (done) {
+            var objectStorage = new ObjectStorage(credentials.baseDir);
+            objectStorage.createContainer('container0').then(function (container) {
+                container.createObject('test3', null, binary2)
+                  .then(function (object) {
+                      assert.equal(object.objectName(), 'test3');
+                      object.load(false, true).then(function (data) {
+                          assert.equal(data, binary2);
                           assert.notOk(object.data);
                           done();
                       }).catch(done);
@@ -102,7 +141,7 @@ describe('LocalObjectStorageObject', function () {
         it('should parse headers and only return x-object-meta headers corresponding to account metadata', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container1').then(function (container) {
-                container.createObject('test1', null, binary)
+                container.createObject('test1', null, binary1)
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test1');
                       object.updateMetadata({this: 'this', that: 'that'}).then(function () {
@@ -126,7 +165,7 @@ describe('LocalObjectStorageObject', function () {
         it('should append appropriate header key to each metadata key passed in', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container1').then(function (container) {
-                container.createObject('test1', null, binary)
+                container.createObject('test1', null, binary1)
                   .then(function (object) {
                       assert.equal(object.objectName(), 'test1');
                       object.updateMetadata({this: 'this', that: 'that'}).then(function () {
@@ -159,7 +198,7 @@ describe('LocalObjectStorageObject', function () {
         it('should correctly set the content type from the response header', function (done) {
             var objectStorage = new ObjectStorage(credentials.baseDir);
             objectStorage.createContainer('container1').then(function (container) {
-                container.createObject('test1', null, binary)
+                container.createObject('test1', null, binary1)
                   .then(function (object) {
                       object.load().then(function (data) {
                           assert.isDefined(object);

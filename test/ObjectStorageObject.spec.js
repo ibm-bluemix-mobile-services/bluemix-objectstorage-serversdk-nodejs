@@ -17,23 +17,18 @@ var ObjectStorageContainer = require('../lib/ObjectStorageContainer').ObjectStor
 var ObjectStorageObject = require('../lib/ObjectStorageObject').ObjectStorageObject;
 var HttpClient = require('../lib/HttpClient').HttpClient;
 
-var credentials = {
-    projectId: 'projectId',
-    userId: 'userId',
-    password: 'password',
-    region: ObjectStorage.Region.DALLAS
-};
+var credentials = require('./credentials.json');
 
 var response = {};
 
-describe('ObjectStorageObject', function() {
+describe('ObjectStorageObject', function () {
 
-    beforeEach(function() {
+    beforeEach(function () {
         response = {};
     });
 
-    describe('constructor', function() {
-        it('should correctly set object name, resource url, http client, and ObjectStorageContainer', function() {
+    describe('constructor', function () {
+        it('should correctly set object name, resource url, http client, and ObjectStorageContainer', function () {
             var objectStorage = new ObjectStorage(credentials);
             var objectStorageContainer = new ObjectStorageContainer('test', objectStorage);
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
@@ -45,12 +40,12 @@ describe('ObjectStorageObject', function() {
         });
     });
 
-    describe('load', function() {
-        it('should cache data when function parameter is true', function(done) {
+    describe('load', function () {
+        it('should cache data when function parameter is true', function (done) {
             response.body = 'gobbledygook';
-            response.headers = { 'content-type': 'something' };
+            response.headers = {'content-type': 'something'};
             var send = HttpClient.prototype.send;
-            HttpClient.prototype.send = function(options) {
+            HttpClient.prototype.send = function (options) {
                 var deferred = Q.defer();
                 deferred.resolve(response);
 
@@ -61,28 +56,28 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.load(true)
-                .then(function(actualData){
-                    var cachedData = objectStorageObject.data;
+              .then(function (actualData) {
+                  var cachedData = objectStorageObject.data;
 
-                    assert.equal(actualData, cachedData);
-                    assert.equal(actualData, response.body);
+                  assert.equal(actualData, cachedData);
+                  assert.equal(actualData, response.body);
 
-                    HttpClient.prototype.send = send;
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.send = send;
-                    done(err);
-                });
+                  HttpClient.prototype.send = send;
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.send = send;
+                  done(err);
+              });
         });
     });
 
-    describe('load', function() {
-        it('should not cache data when function parameter is false', function(done) {
+    describe('load', function () {
+        it('should not cache data when function parameter is false', function (done) {
             response.body = 'gobbledygook';
-            response.headers = { 'content-type': 'something' };
+            response.headers = {'content-type': 'something'};
             var send = HttpClient.prototype.send;
-            HttpClient.prototype.send = function(options) {
+            HttpClient.prototype.send = function (options) {
                 var deferred = Q.defer();
                 deferred.resolve(response);
 
@@ -93,32 +88,32 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('test', objectStorageContainer);
 
             objectStorageObject.load(false)
-                .then(function(actualData){
-                    var cachedData = objectStorageObject.data;
+              .then(function (actualData) {
+                  var cachedData = objectStorageObject.data;
 
-                    assert.notOk(cachedData);
-                    assert.equal(actualData, response.body);
+                  assert.notOk(cachedData);
+                  assert.equal(actualData, response.body);
 
-                    HttpClient.prototype.send = send;
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.send = send;
-                    done(err);
-                });
+                  HttpClient.prototype.send = send;
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.send = send;
+                  done(err);
+              });
         });
     });
 
-    describe('load', function() {
-        it('should reject when error caught from client', function(done) {
+    describe('load', function () {
+        it('should reject when error caught from client', function (done) {
             response.body = 'test body';
             response.statusCode = 422;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
             var isExp = HttpClient.prototype.isExpired;
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -127,26 +122,26 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.load()
-                .then(function(data) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done();
-                });
+              .then(function (data) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done();
+              });
         });
     });
 
-    describe('metadata', function() {
-        it('should parse headers and only return x-object-meta headers corresponding to account metadata', function(done) {
+    describe('metadata', function () {
+        it('should parse headers and only return x-object-meta headers corresponding to account metadata', function (done) {
             response.headers = {
                 'x-object-meta-this': 'this',
                 'x-object-meta-that': 'that',
                 'Content-Type': 'type'
             }
             var send = HttpClient.prototype.send;
-            HttpClient.prototype.send = function(options) {
+            HttpClient.prototype.send = function (options) {
                 var deferred = Q.defer();
                 deferred.resolve(response);
 
@@ -163,29 +158,29 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject(objectName, objectStorageContainer);
 
             objectStorageObject.metadata()
-                .then(function(actualMetadata) {
-                    assert.deepEqual(actualMetadata, expectedMetadata);
+              .then(function (actualMetadata) {
+                  assert.deepEqual(actualMetadata, expectedMetadata);
 
-                    HttpClient.prototype.send = send;
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.send = send;
-                    done(err);
-                });
+                  HttpClient.prototype.send = send;
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.send = send;
+                  done(err);
+              });
         });
     });
 
-    describe('metadata', function() {
-        it('should reject when error caught from client', function(done) {
+    describe('metadata', function () {
+        it('should reject when error caught from client', function (done) {
             response.body = 'test body';
             response.statusCode = 411;
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
             var isExp = HttpClient.prototype.isExpired;
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -194,25 +189,25 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.metadata()
-                .then(function(metadata) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done();
-                });
+              .then(function (metadata) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done();
+              });
         });
     });
 
-    describe('updateMetadata', function() {
-        it('should append appropriate header key to each metadata key passed in', function(done) {
+    describe('updateMetadata', function () {
+        it('should append appropriate header key to each metadata key passed in', function (done) {
             var metadata = {
                 'this': 'this',
                 'that': 'that'
             };
             var send = HttpClient.prototype.send;
-            HttpClient.prototype.send = function(options) {
+            HttpClient.prototype.send = function (options) {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
@@ -231,19 +226,19 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject(objectName, objectStorageContainer);
 
             objectStorageObject.updateMetadata(metadata)
-                .then(function() {
-                    HttpClient.prototype.send = send;
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.send = send;
-                    done(err);
-                });
+              .then(function () {
+                  HttpClient.prototype.send = send;
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.send = send;
+                  done(err);
+              });
         });
     });
 
-    describe('updateMetadata', function() {
-        it('should reject when error caught from client', function(done) {
+    describe('updateMetadata', function () {
+        it('should reject when error caught from client', function (done) {
             response.body = 'test body';
             response.statusCode = 500;
             var metadata = {
@@ -251,11 +246,11 @@ describe('ObjectStorageObject', function() {
                 'that': 'that'
             };
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
             var isExp = HttpClient.prototype.isExpired;
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -264,25 +259,25 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.updateMetadata(metadata)
-                .then(function() {
-                    HttpClient.prototype.isExpired = isExp;
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done();
-                });
+              .then(function () {
+                  HttpClient.prototype.isExpired = isExp;
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done();
+              });
         });
     });
 
-    describe('deleteMetadata', function() {
-        it('should append appropriate header key to each metadata key passed in', function(done) {
+    describe('deleteMetadata', function () {
+        it('should append appropriate header key to each metadata key passed in', function (done) {
             var metadata = {
                 'this': 'this',
                 'that': 'that'
             };
             var send = HttpClient.prototype.send;
-            HttpClient.prototype.send = function(options) {
+            HttpClient.prototype.send = function (options) {
                 var deferred = Q.defer();
                 var headers = options.headers;
 
@@ -301,19 +296,19 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject(objectName, objectStorageContainer);
 
             objectStorageObject.deleteMetadata(metadata)
-                .then(function() {
-                    HttpClient.prototype.send = send;
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.send = send;
-                    done(err);
-                });
+              .then(function () {
+                  HttpClient.prototype.send = send;
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.send = send;
+                  done(err);
+              });
         });
     });
 
-    describe('deleteMetadata', function() {
-        it('should reject when error caught from client', function(done) {
+    describe('deleteMetadata', function () {
+        it('should reject when error caught from client', function (done) {
             response.body = 'test body';
             response.statusCode = 500;
             var metadata = {
@@ -321,11 +316,11 @@ describe('ObjectStorageObject', function() {
                 'that': 'that'
             };
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
             var isExp = HttpClient.prototype.isExpired;
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -334,28 +329,28 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.deleteMetadata(metadata)
-                .then(function() {
-                    HttpClient.prototype.isExpired = isExp;
-                    done(new Error());
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done();
-                });
+              .then(function () {
+                  HttpClient.prototype.isExpired = isExp;
+                  done(new Error());
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done();
+              });
         });
     });
 
-    describe('getContentType', function() {
-        it('should correctly set the content type from the response header', function(done) {
+    describe('getContentType', function () {
+        it('should correctly set the content type from the response header', function (done) {
             response.body = 'test body';
             response.statusCode = 200;
-            response.headers = { 'content-type': 'image/jpeg' };
+            response.headers = {'content-type': 'image/jpeg'};
 
-            var request = function(option, callback) {
+            var request = function (option, callback) {
                 callback(null, response, response.body);
             };
             var isExp = HttpClient.prototype.isExpired;
-            HttpClient.prototype.isExpired = function(token) {
+            HttpClient.prototype.isExpired = function (token) {
                 return false;
             };
             var client = new HttpClient(credentials, request);
@@ -364,16 +359,16 @@ describe('ObjectStorageObject', function() {
             var objectStorageObject = new ObjectStorageObject('object', objectStorageContainer);
 
             objectStorageObject.load()
-                .then(function(data) {
-                    HttpClient.prototype.isExpired = isExp;
-                    var contentType = objectStorageObject.getContentType();
-                    assert.equal(contentType, response.headers['content-type']);
-                    done();
-                })
-                .catch(function(err) {
-                    HttpClient.prototype.isExpired = isExp;
-                    done(err);
-                });
+              .then(function (data) {
+                  HttpClient.prototype.isExpired = isExp;
+                  var contentType = objectStorageObject.getContentType();
+                  assert.equal(contentType, response.headers['content-type']);
+                  done();
+              })
+              .catch(function (err) {
+                  HttpClient.prototype.isExpired = isExp;
+                  done(err);
+              });
         });
     });
 });

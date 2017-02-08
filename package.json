@@ -2,7 +2,7 @@
   "name": "bluemix-objectstorage",
   "version": "0.1.2",
   "description": "Library for interacting with the IBM Object Storage service on Bluemix",
-  "main": "./lib/ObjectStorage.js",
+  "main": "./lib/ObjectStorageFactory.js",
   "directories": {
     "test": "test"
   },
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs#readme",
   "devDependencies": {
+    "async": "^2.1.4",
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
     "mocha": "^2.5.3"
@@ -33,6 +34,7 @@
     "lodash": "^4.13.1",
     "log4js": "^0.6.37",
     "q": "^1.4.1",
-    "request": "^2.72.0"
+    "request": "^2.72.0",
+    "rimraf": "^2.5.4"
   }
 }

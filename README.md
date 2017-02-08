@@ -1,6 +1,8 @@
 
 [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)
 
+Temporary build status (until merge): [![Build Status](https://travis-ci.org/lcotonea/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)](https://travis-ci.org/lcotonea/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)
+
 # BluemixObjectStorage
 
 
@@ -13,12 +15,12 @@ npm install --save bluemix-objectstorage
 ## Usage
 
 ```javascript
-var ObjectStorage = require('bluemix-objectstorage').ObjectStorage;
+var ObjectStorageFactory = require('bluemix-objectstorage').ObjectStorageFactory;
 ```
 
 ### ObjectStorage
 
-Use an `ObjectStorage` instance to connect to the IBM Object Storage service and manage containers.
+Use an `ObjectStorageFactory` instance to retrieve an ObjectStorage which can be local (if no attached cloud service) or remote (if credentials are checked) connect to the IBM Object Storage service and manage containers.
 
 Pass in a credentials object containing projectId, userId, password, and region to the `ObjectStorage` constructor in order to establish a connection with the IBM Object Storage service on Bluemix
 

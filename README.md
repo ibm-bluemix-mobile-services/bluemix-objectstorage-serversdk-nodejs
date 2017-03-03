@@ -1,8 +1,9 @@
-
-[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs)
-
 # BluemixObjectStorage
 
+Bluemix server SDK for Object Storage in Node.js
+
+[![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6724a24e8ef148d3baaf82a77fa37d7e)](https://www.codacy.com/app/ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ibm-bluemix-mobile-services/bluemix-objectstorage-serversdk-nodejs&amp;utm_campaign=Badge_Grade)
 
 
 ## Installation

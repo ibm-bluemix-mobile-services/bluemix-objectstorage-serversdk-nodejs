@@ -26,7 +26,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "coveralls": "2.11.15"
   },
   "dependencies": {
     "cfenv": "^1.0.3",
